@@ -1,6 +1,9 @@
 package utils;
 
+import entities.Course;
 import entities.Faculty;
+import entities.Lecturer;
+import entities.Room;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -58,9 +61,10 @@ public class HibernateUtils {
             StandardServiceRegistry serviceRegistry = registryBuilder.build();
             Metadata metadata = new MetadataSources(serviceRegistry)
                     .addAnnotatedClass(Faculty.class)
-
+                    .addAnnotatedClass(Room.class)
+                    .addAnnotatedClass(Course.class)
+                    .addAnnotatedClass(Lecturer.class)
                     .getMetadataBuilder().build();
-
 
             sessionFactory = metadata.getSessionFactoryBuilder().build();
         }
