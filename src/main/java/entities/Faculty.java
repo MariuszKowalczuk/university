@@ -11,18 +11,19 @@ import java.util.Set;
  * @author Mariusz Kowalczuk
  */
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode//(exclude = "rooms")
-@ToString//(exclude = "rooms")
+//@ToString//(exclude = "rooms")
 public class Faculty extends AbstractEntity {
     private String name;
-    @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "faculty", fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
     private Set<Room> rooms;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "faculty_lecturer",
             joinColumns = @JoinColumn(name = "faculty_id"),
@@ -30,7 +31,7 @@ public class Faculty extends AbstractEntity {
 
     private Set<Lecturer> lecturers;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "faculty_course",
             joinColumns = @JoinColumn(name = "faculty_id"),
@@ -38,6 +39,12 @@ public class Faculty extends AbstractEntity {
     )
     private Set<Course> courses;
 
-
-
+    @Override
+    public String toString() {
+        return super.toString()  +" "+ name +
+                ", rooms=" + rooms +
+                ", lecturers=" + lecturers +
+                ", courses=" + courses
+                ;
+    }
 }

@@ -19,5 +19,8 @@ public abstract class AbstractEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + " ID " + this.getId();
+    }
 }
